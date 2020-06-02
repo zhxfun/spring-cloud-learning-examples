@@ -1,0 +1,17 @@
+server:
+  port: 8763
+spring:
+  application:
+    name: eureka-server1 #本服务注册到注册到服务器的名称, 这个名称就是后面调用服务时的服务标识符，即Eureka Service Id
+eureka:
+  instance:
+    hostname: localhost #主机名，不配置的时候将根据操作系统的主机名来获取
+    prefer-ip-address: true #是否优先使用IP地址作为主机名的标识
+    lease-renewal-interval-in-seconds: 30 #Eureka客户端向服务端发送心跳的时间间隔，单位为秒
+    lease-expiration-duration-in-seconds: 90 #Eureka服务端在收到最后一次心跳之后等待的时间上限，单位为秒。超过该时间之后服务端会将该服务实例从服务清单中剔除，从而禁止服务调用请求被发送到该实例上
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    registerWithEureka: false #是否要将自身的实例信息注册到Eureka服务端
+    fetchRegistry: false #是否从Eureka服务端获取注册信息
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8762/eureka/ #配置 Eureka-Server 地址
